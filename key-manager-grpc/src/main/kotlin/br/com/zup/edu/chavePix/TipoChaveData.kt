@@ -8,7 +8,7 @@ enum class TipoChaveData {
 
     CPF {
         override fun valida(chave: String?): Boolean {
-            if (!chave.isNullOrBlank()) {
+            if (chave.isNullOrBlank()) {
                 return false
             }
 
@@ -26,7 +26,7 @@ enum class TipoChaveData {
 
     TELEFONE_CELULAR {
         override fun valida(chave: String?): Boolean {
-            if (!chave.isNullOrBlank()) {
+            if (chave.isNullOrBlank()) {
                 return false
             }
             return chave!!.matches("^\\+[1-9][0-9]\\d{1,14}\$".toRegex())
@@ -36,7 +36,7 @@ enum class TipoChaveData {
 
     EMAIL {
         override fun valida(chave: String?): Boolean {
-            if (!chave.isNullOrBlank()) {
+            if (chave.isNullOrBlank()) {
                 return false
             }
 

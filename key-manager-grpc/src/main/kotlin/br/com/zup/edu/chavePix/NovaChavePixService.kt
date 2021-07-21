@@ -3,8 +3,6 @@ package br.com.zup.edu.chavePix
 import br.com.zup.edu.ChaveExistenteException
 import br.com.zup.edu.repository.ChavePixRepository
 import br.com.zup.edu.servicosExternos.ErpItauClient
-import io.grpc.Status
-import io.grpc.StatusRuntimeException
 import io.micronaut.validation.Validated
 import javax.inject.Inject
 import javax.inject.Singleton
