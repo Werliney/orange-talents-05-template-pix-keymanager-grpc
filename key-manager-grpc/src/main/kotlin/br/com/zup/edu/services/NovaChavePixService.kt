@@ -1,6 +1,8 @@
-package br.com.zup.edu.chavePix
+package br.com.zup.edu.services
 
-import br.com.zup.edu.ChaveExistenteException
+import br.com.zup.edu.exceptions.ChaveExistenteException
+import br.com.zup.edu.chavePix.ChavePix
+import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 import br.com.zup.edu.repository.ChavePixRepository
 import br.com.zup.edu.servicosExternos.ErpItauClient
 import io.micronaut.validation.Validated

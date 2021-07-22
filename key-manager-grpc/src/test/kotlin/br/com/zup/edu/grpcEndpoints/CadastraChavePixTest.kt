@@ -4,7 +4,7 @@ import br.com.zup.edu.CadastraChavePixRequest
 import br.com.zup.edu.KeyManagerGrpcServiceGrpc
 import br.com.zup.edu.TipoChave
 import br.com.zup.edu.TipoConta
-import br.com.zup.edu.chavePix.ChavePixRequest
+import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 import br.com.zup.edu.chavePix.TipoChaveData
 import br.com.zup.edu.chavePix.TipoContaData
 import br.com.zup.edu.repository.ChavePixRepository

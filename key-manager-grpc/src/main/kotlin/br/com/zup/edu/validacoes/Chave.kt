@@ -1,6 +1,6 @@
 package br.com.zup.edu.validacoes
 
-import br.com.zup.edu.chavePix.ChavePixRequest
+import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 import io.micronaut.core.annotation.AnnotationValue
 import io.micronaut.validation.validator.constraints.ConstraintValidator
 import io.micronaut.validation.validator.constraints.ConstraintValidatorContext

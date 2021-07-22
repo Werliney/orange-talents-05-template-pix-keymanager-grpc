@@ -1,5 +1,8 @@
-package br.com.zup.edu.chavePix
+package br.com.zup.edu.chavePix.cadastraChavePix
 
+import br.com.zup.edu.chavePix.ChavePix
+import br.com.zup.edu.chavePix.TipoChaveData
+import br.com.zup.edu.chavePix.TipoContaData
 import br.com.zup.edu.donoDaConta.DonoDaConta
 import br.com.zup.edu.servicosExternos.DadosDaContaResponse
 import br.com.zup.edu.validacoes.Chave

@@ -1,6 +1,7 @@
 package br.com.zup.edu.chavePix
 
 import br.com.zup.edu.CadastraChavePixRequest
+import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 
 fun CadastraChavePixRequest.toModel(): ChavePixRequest {
     return ChavePixRequest(

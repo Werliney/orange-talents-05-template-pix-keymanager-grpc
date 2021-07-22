@@ -11,6 +11,19 @@ service KeyManagerGrpcService {
   rpc cadastrarChavePix(CadastraChavePixRequest) returns(CadastraChavePixResponse);
 }
 
+service RemoveChaveGrpcService {
+  rpc removeChavePix(RemoveChavePixRequest) returns(RemoveChavePixResponse);
+}
+
+message RemoveChavePixRequest {
+int64 idPix = 1;
+string idCliente = 2;
+}
+
+message RemoveChavePixResponse {
+string mensagem = 1;
+}
+
 enum TipoChave {
   CPF = 0;
   TELEFONE_CELULAR = 1;
