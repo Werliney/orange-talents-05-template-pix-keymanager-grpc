@@ -5,6 +5,7 @@ import br.com.zup.edu.chavePix.TipoChaveData
 import br.com.zup.edu.chavePix.TipoContaData
 import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 import br.com.zup.edu.exceptions.ChaveExistenteException
+import br.com.zup.edu.exceptions.ErroNoCadastroDaChaveBcbException
 import br.com.zup.edu.repository.ChavePixRepository
 import br.com.zup.edu.servicosExternos.*
 import io.micronaut.http.HttpStatus
@@ -55,7 +56,7 @@ class NovaChavePixService(
         val createPixKeyResponse = bcbClient.cadastraChaveBcb(createPixRequest)
 
         if (createPixKeyResponse.status != HttpStatus.CREATED) {
-            throw IllegalStateException("Não foi possível cadastar a chave Pix no Banco Central do Brasil")
+            throw ErroNoCadastroDaChaveBcbException("Não foi possível cadastar a chave Pix no Banco Central do Brasil")
         }
 
         chavePixRepository.save(chavePix)

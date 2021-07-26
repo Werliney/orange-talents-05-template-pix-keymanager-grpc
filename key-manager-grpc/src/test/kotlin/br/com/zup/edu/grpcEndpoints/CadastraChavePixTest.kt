@@ -8,10 +8,7 @@ import br.com.zup.edu.chavePix.cadastraChavePix.ChavePixRequest
 import br.com.zup.edu.chavePix.TipoChaveData
 import br.com.zup.edu.chavePix.TipoContaData
 import br.com.zup.edu.repository.ChavePixRepository
-import br.com.zup.edu.servicosExternos.DadosDaContaResponse
-import br.com.zup.edu.servicosExternos.ErpItauClient
-import br.com.zup.edu.servicosExternos.Instituicao
-import br.com.zup.edu.servicosExternos.Titular
+import br.com.zup.edu.servicosExternos.*
 import io.grpc.ManagedChannel
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -22,6 +19,7 @@ import io.micronaut.grpc.server.GrpcServerChannel
 import io.micronaut.http.HttpResponse
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -39,8 +37,16 @@ internal class CadastraChavePixTest(
     @field:Inject
     lateinit var erpItauClient: ErpItauClient
 
+    @field:Inject
+    lateinit var bcbClient: BcbClient
+
     @BeforeEach
     internal fun setUp() {
+        chavePixRepository.deleteAll()
+    }
+
+    @AfterEach
+    internal fun tearDown() {
         chavePixRepository.deleteAll()
     }
 
@@ -64,8 +70,16 @@ internal class CadastraChavePixTest(
             titular
         )
 
+        val bankAccount = BankAccount("60701190", "0001", "291900", AccountType.CACC)
+        val owner = Owner(TypePerson.NATURAL_PERSON, "Rafael M C Ponte", "02467781054")
+        val createPixRequest = CreatePixRequest(TipoChaveData.CPF, "99256629070", bankAccount, owner)
+
+        val createPixKeyResponse = CreatePixKeyResponse(TipoChaveData.CPF, "99256629070", bankAccount, owner)
+
         Mockito.`when`(erpItauClient.consulta("c56dfef4-7901-44fb-84e2-a2cefb157890", "CONTA_CORRENTE")).thenReturn(
             HttpResponse.ok(dadosDaContaResponse))
+
+        Mockito.`when`(bcbClient.cadastraChaveBcb(createPixRequest)).thenReturn(HttpResponse.created(createPixKeyResponse))
 
         //ação
         val response = grpClient.cadastrarChavePix(CadastraChavePixRequest.newBuilder()
@@ -167,10 +181,63 @@ internal class CadastraChavePixTest(
         }
     }
 
+    @Test
+    internal fun `nao deve cadastrar chave pix quando nao for possivel registrar chave no bcb`() {
+        // cenário
+        val instituicao = Instituicao(
+            "ITAÚ UNIBANCO S.A.",
+            "60701190"
+        )
+        val titular = Titular(
+            "c56dfef4-7901-44fb-84e2-a2cefb157890",
+            "Rafael M C Ponte",
+            "02467781054"
+        )
+        val dadosDaContaResponse = DadosDaContaResponse(
+            "CONTA_CORRENTE",
+            instituicao,
+            "0001",
+            "291900",
+            titular
+        )
+
+        val bankAccount = BankAccount("60701190", "0001", "291900", AccountType.CACC)
+        val owner = Owner(TypePerson.NATURAL_PERSON, "Rafael M C Ponte", "02467781054")
+        val createPixRequest = CreatePixRequest(TipoChaveData.CPF, "99256629070", bankAccount, owner)
+
+        Mockito.`when`(erpItauClient.consulta("c56dfef4-7901-44fb-84e2-a2cefb157890", "CONTA_CORRENTE")).thenReturn(
+            HttpResponse.ok(dadosDaContaResponse))
+
+        Mockito.`when`(bcbClient.cadastraChaveBcb(createPixRequest)).thenReturn(HttpResponse.badRequest())
+
+        // ação
+        val erro = assertThrows<StatusRuntimeException> {
+            grpClient.cadastrarChavePix(CadastraChavePixRequest.newBuilder()
+                .setIdCliente("c56dfef4-7901-44fb-84e2-a2cefb157890")
+                .setTipoChave(TipoChave.valueOf("CPF"))
+                .setValorChave("99256629070")
+                .setTipoConta(TipoConta.forNumber(TipoConta.CONTA_CORRENTE_VALUE))
+                .build())
+        }
+
+        // validação
+        with(erro) {
+            assertEquals(Status.FAILED_PRECONDITION.code, status.code)
+            assertEquals("Não foi possível cadastar a chave Pix no Banco Central do Brasil", status.description)
+        }
+
+    }
+
     @MockBean(ErpItauClient::class)
     fun erpItauMock(): ErpItauClient {
         return Mockito.mock(ErpItauClient::class.java)
     }
+
+    @MockBean(BcbClient::class)
+    fun bcbClientMock(): BcbClient {
+        return Mockito.mock(BcbClient::class.java)
+    }
+
 
     @Factory
     class Clients {

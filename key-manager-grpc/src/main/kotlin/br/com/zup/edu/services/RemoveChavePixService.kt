@@ -2,10 +2,13 @@ package br.com.zup.edu.services
 
 import br.com.zup.edu.chavePix.removeChavePix.RemoveChaveRequest
 import br.com.zup.edu.exceptions.ChaveNaoExistenteException
+import br.com.zup.edu.exceptions.ErroNaRemocaoDaChaveBcbException
 import br.com.zup.edu.repository.ChavePixRepository
 import br.com.zup.edu.servicosExternos.BcbClient
 import br.com.zup.edu.servicosExternos.DeletePixKeyRequest
+import io.micronaut.http.HttpStatus
 import io.micronaut.validation.Validated
+import java.lang.IllegalStateException
 import javax.inject.Singleton
 import javax.validation.ConstraintViolationException
 import javax.validation.Valid
@@ -37,6 +40,10 @@ class RemoveChavePixService(
 
         val deletePixKeyRequest = DeletePixKeyRequest(chavePix.get().valorChave,"60701190")
         val deletePixKeyResponse = bcbClient.removeChaveBcb(chavePix.get().valorChave, deletePixKeyRequest)
+
+        if (deletePixKeyResponse.status != HttpStatus.OK) {
+            throw ErroNaRemocaoDaChaveBcbException("Não foi possível remover a chave Pix do Banco Central do Brasil")
+        }
 
         chavePixRepository.delete(chavePix.get())
     }
