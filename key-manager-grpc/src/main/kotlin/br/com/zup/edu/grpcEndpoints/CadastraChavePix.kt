@@ -4,7 +4,7 @@ import br.com.zup.edu.CadastraChavePixRequest
 import br.com.zup.edu.CadastraChavePixResponse
 import br.com.zup.edu.KeyManagerGrpcServiceGrpc
 import br.com.zup.edu.services.NovaChavePixService
-import br.com.zup.edu.chavePix.toModel
+import br.com.zup.edu.chavePix.cadastraChavePix.toModel
 import br.com.zup.edu.validacoes.ErrorAroundHandler
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject

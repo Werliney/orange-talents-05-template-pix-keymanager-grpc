@@ -15,6 +15,49 @@ service RemoveChaveGrpcService {
   rpc removeChavePix(RemoveChavePixRequest) returns(RemoveChavePixResponse);
 }
 
+service ListaChaveKeyManagerGrpcService {
+  rpc listaChave(ListaChaveKeyManagerRequest) returns(ListaChaveKeyManagerResponse);
+}
+
+service ListaChaveSistemaExternoGrpcService {
+  rpc listaChave(ListaChaveSistemaExternoRequest) returns(ListaChaveSistemaExternoResponse);
+}
+
+message ListaChaveSistemaExternoRequest {
+  string chave = 1;
+}
+
+message ListaChaveSistemaExternoResponse {
+  TipoChave tipoChave = 1;
+  string valorChave = 2;
+  string nome = 3;
+  string cpf = 4;
+  string instituicao = 5;
+  string agencia = 6;
+  string numeroConta = 7;
+  TipoConta tipoConta = 8;
+  string dataCriacao = 9;
+}
+
+message ListaChaveKeyManagerRequest {
+  string idCliente = 1;
+  int64 idPix = 2;
+}
+
+message ListaChaveKeyManagerResponse {
+  string idCliente = 1;
+  int64 idPix = 2;
+  TipoChave tipoChave = 3;
+  string valorChave = 4;
+  string nome = 5;
+  string cpf = 6;
+  string nomeInstituicao = 7;
+  string agencia = 8;
+  string numeroConta = 9;
+  TipoConta tipoConta = 10;
+  string dataCriacao = 11;
+}
+
 message RemoveChavePixRequest {
 int64 idPix = 1;
 string idCliente = 2;

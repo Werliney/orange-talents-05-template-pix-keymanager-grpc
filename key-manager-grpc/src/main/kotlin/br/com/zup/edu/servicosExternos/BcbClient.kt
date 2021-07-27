@@ -19,7 +19,19 @@ interface BcbClient {
     @Produces(MediaType.APPLICATION_XML)
     @Consumes(MediaType.APPLICATION_XML)
     fun removeChaveBcb(@PathVariable keys: String, @Body deletePixKeyRequest: DeletePixKeyRequest): HttpResponse<DeletePixKeyResponse>
+
+    @Get("/api/v1/pix/keys/{key}")
+    @Produces(MediaType.APPLICATION_XML)
+    @Consumes(MediaType.APPLICATION_XML)
+    fun consultaChave(@PathVariable key: String): HttpResponse<PixDetailsResponse>
 }
+
+data class PixDetailsResponse(
+    val keyType: TipoChaveData,
+    val key: String,
+    val bankAccount: BankAccount,
+    val owner: Owner,
+    val createdAt: LocalDateTime)
 
 data class DeletePixKeyRequest(val key: String, val participant: String)
 

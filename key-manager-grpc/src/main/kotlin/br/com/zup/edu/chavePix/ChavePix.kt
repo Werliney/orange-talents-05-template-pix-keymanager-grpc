@@ -6,10 +6,10 @@ import javax.persistence.*
 @Entity
 class ChavePix(
     val idCliente: String,
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     val tipoChave: TipoChaveData,
     val valorChave: String,
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     val tipoConta: TipoContaData,
     @Embedded
     val donoDaConta: DonoDaConta

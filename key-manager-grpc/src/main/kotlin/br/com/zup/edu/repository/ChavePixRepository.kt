@@ -10,9 +10,10 @@ import java.util.*
 @Repository
 interface ChavePixRepository: JpaRepository<ChavePix, Long> {
 
-    @Query("SELECT c FROM ChavePix c WHERE c.valorChave =:valorChave")
-    fun findByValorChave(valorChave: String?): Optional<ChavePix>
+    @Query("SELECT c FROM ChavePix c WHERE c.valorChave=:valorChave")
+    fun findByValorChave(valorChave: String): Optional<ChavePix>
 
     @Query("SELECT c FROM ChavePix c WHERE c.id=:idPix AND c.idCliente=:idCliente")
     fun findChaveByIdAndCliente(idPix: Long, idCliente: String): Optional<ChavePix>
+
 }

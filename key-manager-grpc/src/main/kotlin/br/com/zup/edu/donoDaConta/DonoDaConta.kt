@@ -10,4 +10,7 @@ class DonoDaConta(dadosDaContaResponse: DadosDaContaResponse) {
     val nome = dadosDaContaResponse.titular.nome
     val cpf = dadosDaContaResponse.titular.cpf
     val tipo = dadosDaContaResponse.tipo
+    val agencia = dadosDaContaResponse.agencia
+    val numeroConta = dadosDaContaResponse.numero
+    val nomeInstituicao = dadosDaContaResponse.instituicao.nome
 }
