@@ -23,6 +23,26 @@ service ListaChaveSistemaExternoGrpcService {
   rpc listaChave(ListaChaveSistemaExternoRequest) returns(ListaChaveSistemaExternoResponse);
 }
 
+service ListaChavesDoClienteGrpcService {
+  rpc listaChaves(ListaChavesDoClienteRequest) returns (ListaChavesDoClienteResponse);
+}
+
+message ListaChavesDoClienteRequest{
+string idCliente = 1;
+}
+
+message ListaChavesDoClienteResponse {
+  message ChavePix {
+    int64 idPix = 1;
+    string idCliente = 2;
+    TipoChave tipoChave = 3;
+    string valorChave = 4;
+    TipoConta tipoConta = 5;
+  }
+
+  repeated ChavePix chaves = 1;
+}
+
 message ListaChaveSistemaExternoRequest {
   string chave = 1;
 }

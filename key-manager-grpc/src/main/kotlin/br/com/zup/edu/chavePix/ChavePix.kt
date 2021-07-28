@@ -1,6 +1,7 @@
 package br.com.zup.edu.chavePix
 
 import br.com.zup.edu.donoDaConta.DonoDaConta
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity

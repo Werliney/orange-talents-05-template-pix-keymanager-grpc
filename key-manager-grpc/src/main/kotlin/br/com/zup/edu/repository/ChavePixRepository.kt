@@ -16,4 +16,7 @@ interface ChavePixRepository: JpaRepository<ChavePix, Long> {
     @Query("SELECT c FROM ChavePix c WHERE c.id=:idPix AND c.idCliente=:idCliente")
     fun findChaveByIdAndCliente(idPix: Long, idCliente: String): Optional<ChavePix>
 
+    @Query("SELECT c FROM ChavePix c WHERE c.idCliente=:idCliente")
+    fun findChavesByIdCliente(idCliente: String): List<ChavePix>
+
 }

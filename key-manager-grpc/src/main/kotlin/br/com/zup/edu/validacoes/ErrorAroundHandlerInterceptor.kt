@@ -1,9 +1,6 @@
 package br.com.zup.edu.validacoes
 
-import br.com.zup.edu.exceptions.ChaveExistenteException
-import br.com.zup.edu.exceptions.ChaveNaoExistenteException
-import br.com.zup.edu.exceptions.ErroNaRemocaoDaChaveBcbException
-import br.com.zup.edu.exceptions.ErroNoCadastroDaChaveBcbException
+import br.com.zup.edu.exceptions.*
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import io.micronaut.aop.InterceptorBean
@@ -33,6 +30,7 @@ class ErrorAroundHandlerInterceptor: MethodInterceptor<Any, Any> {
                 is ChaveNaoExistenteException -> Status.NOT_FOUND.withCause(ex).withDescription(ex.message)
                 is ErroNoCadastroDaChaveBcbException -> Status.FAILED_PRECONDITION.withCause(ex).withDescription(ex.message)
                 is ErroNaRemocaoDaChaveBcbException -> Status.FAILED_PRECONDITION.withCause(ex).withDescription(ex.message)
+                is ClienteNuloException -> Status.NOT_FOUND.withCause(ex).withDescription(ex.message)
                 else -> Status.UNKNOWN
             }
 
