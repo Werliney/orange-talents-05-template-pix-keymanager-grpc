@@ -246,4 +246,5 @@ internal class CadastraChavePixTest(
             return KeyManagerGrpcServiceGrpc.newBlockingStub(channel)
         }
     }
+
 }
