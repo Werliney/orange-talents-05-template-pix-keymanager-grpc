@@ -204,6 +204,16 @@ internal class DetalhaChaveKeyManagerTest(
         }
     }
 
+    @Test
+    internal fun `nao deve consultar chave pix se retornar erro do bcb`() {
+        TODO("Not yet implemented")
+    }
+
+    @Test
+    internal fun `nao deve consultar chave pix se os dados informados estiverem invalidos`() {
+        TODO("Not yet implemented")
+    }
+
     @MockBean(BcbClient::class)
     fun bcbClientMock(): BcbClient {
         return Mockito.mock(BcbClient::class.java)
